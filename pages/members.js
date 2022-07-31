@@ -18,6 +18,11 @@ const Members = () => {
     return;
   }
 
+  if (!session.user.isSubscriber) {
+    router.push('/join');
+    return;
+  }
+
   return (
     <div>
       <Head>
