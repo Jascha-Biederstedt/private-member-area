@@ -2,7 +2,19 @@ import Head from 'next/head';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
-const Members = () => {
+import { getMarkdown } from 'lib/markdown';
+
+export const getServerSideProps = async () => {
+  const markdown = await getMarkdown();
+
+  return {
+    props: {
+      markdown,
+    },
+  };
+};
+
+const Members = ({ markdown }) => {
   const router = useRouter();
 
   const { data: session, status } = useSession();
@@ -44,6 +56,11 @@ const Members = () => {
           <li>Exclusive access to preorders</li>
         </ol>
       </div>
+
+      <div
+        className='markdown'
+        dangerouslySetInnerHTML={{ __html: markdown }}
+      />
     </div>
   );
 };
